@@ -1,0 +1,105 @@
+.button_plus {
+  position: relative;
+  width: 35px;
+  height: 35px;
+  background: #fff;
+  cursor: pointer;
+  border: 2px solid #095776;
+  margin: 20px;
+}
+
+.button_plus:after {
+  content: '';
+  position: absolute;
+  transform: translate(-50%, -50%);
+  height: 4px;
+  width: 50%;
+  background: #095776;
+  top: 50%;
+  left: 50%;
+}
+
+#inputPassword2 {
+  min-width: 40vw;
+}
+
+#cancelAddTask {
+  margin-left: 20px;
+  font-size: 24px;
+  margin-bottom: 5px;
+  cursor: pointer;
+}
+
+.button_plus:before {
+  content: '';
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  background: #095776;
+  height: 50%;
+  width: 4px;
+}
+
+.form-inline {
+  padding: 20px;
+}
+
+.button_plus:hover:before,
+.button_plus:hover:after {
+  background: #fff;
+  transition: 0.2s;
+}
+
+.button_plus:hover {
+  background-color: #095776;
+  transition: 0.2s;
+  border-radius: 7px;
+}
+
+.nav-item {
+  font-size: 20px;
+  margin-left: 35px;
+}
+
+.log {
+  color: rgb(104, 85, 224);
+  background-color: rgba(255, 255, 255, 1);
+  border: 1px solid rgba(104, 85, 224, 1);
+}
+
+.signin-div {
+  flex: 2;
+}
+
+.collapse {
+  text-align: right;
+}
+
+.log {
+  cursor: pointer;
+  border: 0;
+  border-radius: 4px;
+  font-weight: 600;
+  margin: 0 10px;
+  width: 200px;
+  padding: 10px 0;
+  box-shadow: 0 0 20px rgba(104, 85, 224, 0.2);
+  transition: 0.4s;
+}
+
+.log:hover {
+  color: white;
+  /* width:; */
+  box-shadow: 0 0 20px rgba(104, 85, 224, 0.6);
+  background-color: rgba(104, 85, 224, 1);
+}
+
+.block {
+  display: block;
+  margin-top: 150px;
+}
+
+.blur {
+  filter: blur(5px);
+}
