@@ -1,7 +1,7 @@
 <!doctype html>
 <html lang="en">
   <head>
-  	<title>Dair</title>
+  	<title>Список заданий</title>
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
 
@@ -17,11 +17,12 @@
 		<nav class="navbar navbar-expand-lg navbar-light bg-light">
 			<div class="collapse navbar-collapse" id="navbarNavAltMarkup">
 			  <div class="navbar-nav">
-				<a class="nav-item nav-link" href="/tasks">Tasks</a>
+				<a class="nav-item nav-link" href="/tasks">Задания</a>
+				<a class="nav-item nav-link" v-if="isteacher" href="/students">Студенты</a>
 			  </div>
 			  <div class="signin-div" v-if="!isteacher">
-				<label for="login">Do you a teacher?</label>
-				<button id="login" @click="openModal" class="log">Login</button>
+				<label for="login">Вы учитель?</label>
+				<button id="login" @click="openModal" class="log">Войти</button>
 			  </div>
 			</div>
 		</nav>
@@ -30,7 +31,7 @@
 			<div class="modal-dialog" role="document">
 			  <div class="modal-content">
 				<div class="modal-header">
-				  <h5 class="modal-title" id="exampleModalLabel">Log in</h5>
+				  <h5 class="modal-title" id="exampleModalLabel">Вход</h5>
 				  <button type="button" class="close" @click="closeModal" data-dismiss="modal">
 					<span aria-hidden="true">&times;</span>
 				  </button>
@@ -44,18 +45,18 @@
 				  </form>
 				</div>
 				<div class="modal-footer">
-				  <button type="button" class="btn btn-secondary" @click="closeModal" data-dismiss="modal">Close</button>
-				  <button type="button" class="btn btn-primary" @click="sendPass">Send password</button>
+				  <button type="button" class="btn btn-secondary" @click="closeModal" data-dismiss="modal">Закрыть</button>
+				  <button type="button" class="btn btn-primary" @click="sendPass">Отправить пароль</button>
 				</div>
 			  </div>
 			</div>
-		  </div>
+		</div>
 
 	<section :class="classes.section">
 		<div class="container">
 			<div class="row justify-content-center">
 				<div class="col-md-6 text-center mb-5">
-					<h2 class="heading-section">Tasks #</h2>
+					<h2 class="heading-section">Задания #</h2>
 				</div>
 			</div>
 			<div class="row">
@@ -65,8 +66,8 @@
 						  <thead class="thead-dark">
 						    <tr>
 						      <th>ID no.</th>
-						      <th>Task Name</th>
-						      <th>Date</th>
+						      <th>Текст задания</th>
+						      <th>Дата</th>
 						      <th>&nbsp;</th>
 						    </tr>
 						  </thead>
@@ -75,10 +76,8 @@
 						      <th scope="row">{{ index + 1 }}</th>
 						      <td>{{ task.taskText }}</td>
 						      <td>{{ (new Date(task.createdAt)).toString().split('GMT')[0] }}</td>
-						      <td v-if="isteacher" style="cursor: pointer;" @click="deleteTask(task._id)">
-						      	<!-- <a href="#" class="close" data-dismiss="alert" aria-label="Close"> -->
+						      <td v-if="isteacher" style="cursor: pointer;" @click.stop="deleteTask(task._id)">
 				            	<span><i class="fa fa-close"></i></span>
-				          		</a>
 				        	  </td>
 						    </tr>
 						  </tbody>
@@ -87,10 +86,10 @@
 					<div class="button_plus" @click="isAdd = !isAdd" v-if="!isAdd && isteacher"></div>
 					<form class="form-inline" v-if="isAdd">
 						<div class="form-group mx-sm-3 mb-2">
-						  <label for="inputPassword2" class="sr-only">Task</label>
-						  <input type="text" @input="changeInputData('task', $event)" :value="inputValue.save" v-on:keyup.enter="attach" class="form-control" id="inputPassword2" placeholder="Task name">
+						  <label for="inputPassword2" class="sr-only">Задание</label>
+						  <input type="text" @input="changeInputData('task', $event)" :value="inputValue.save" v-on:keyup.enter="attach" class="form-control" id="inputPassword2" placeholder="Текст задания">
 						</div>
-						<button type="button" @click="attach" class="btn btn-primary mb-2">Attach</button>
+						<button type="button" @click="attach" class="btn btn-primary mb-2">Добавить</button>
 						<span @click="isAdd = !isAdd" id="cancelAddTask" aria-hidden="true"><i class="fa fa-close"></i></span>
 					  </form>
 				</div>

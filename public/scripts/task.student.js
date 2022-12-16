@@ -46,10 +46,8 @@ createApp({
           })
     },
     pareseStatus(tasks) {
-      const arrt = JSON.parse(tasks);
-
-      for (let i = 0; i < arrt.length; i++) {
-        const element = arrt[i];
+      for (let i = 0; i < tasks.length; i++) {
+        const element = tasks[i];
         
         if (element.id === taskID) return element.status;
       }

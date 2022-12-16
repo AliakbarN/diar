@@ -8,15 +8,15 @@
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@4.0.0/dist/css/bootstrap.min.css" integrity="sha384-Gn5384xqQ1aoWXA+058RXPxPg6fy4IWvTNh0E263XmFcJlSAwiGgFAW/dAiS6JXm" crossorigin="anonymous">
     <link href="/stylesheets/css/main.css" rel="stylesheet" />
     <link rel="stylesheet" href="/stylesheets/task-stud.css">
-    <title>Task's Student</title>
+    <title>Задание. Студенты</title>
   </head>
   <body>
 
     <nav class="navbar navbar-expand-lg navbar-light bg-light">
 			<div class="collapse navbar-collapse" id="navbarNavAltMarkup">
 			  <div class="navbar-nav">
-				<a class="nav-item nav-link" href="/tasks">Tasks</a>
-				<a class="nav-item nav-link" :href="poss">Students</a>
+				<a class="nav-item nav-link" href="/tasks">Задания</a>
+				<a class="nav-item nav-link" href="/students">Студенты</a>
 			  </div>
 			</div>
 		</nav>
@@ -32,7 +32,7 @@
       <div class="s006">
         <form>
           <fieldset>
-            <legend>Type student's name</legend>
+            <legend>Введите имя студента</legend>
             <div class="inner-form">
               <div class="input-field">
                 <button class="btn-search" @click="search" type="button">
@@ -40,7 +40,7 @@
                     <path d="M15.5 14h-.79l-.28-.27C15.41 12.59 16 11.11 16 9.5 16 5.91 13.09 3 9.5 3S3 5.91 3 9.5 5.91 16 9.5 16c1.61 0 3.09-.59 4.23-1.57l.27.28v.79l5 4.99L20.49 19l-4.99-5zm-6 0C7.01 14 5 11.99 5 9.5S7.01 5 9.5 5 14 7.01 14 9.5 11.99 14 9.5 14z"></path>
                   </svg>
                 </button>
-                <input id="search" type="text" v-model="searchText" placeholder="Alex Hitch" />
+                <input id="search" type="text" v-model="searchText" placeholder="Алекс Хитч" />
               </div>
             </div>
           </fieldset>

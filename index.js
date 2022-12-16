@@ -25,6 +25,7 @@ app
 
 app
   .get('/tasks', (req, res) => res.render('pages/task'))
+  .get('/students', (req, res) => res.render('pages/students'))
   .get('/task/:id', (req, res) => res.render('pages/index'))
   .get('/get/tasks', async (req, res) => {
     const tasks = await TaskModel.find();
@@ -32,24 +33,32 @@ app
     res.json(tasks);
   })
   .get('/get/basic-data', async (req, res) => {
-    const stds = await StudentModel.find();
+    let stds = await StudentModel.find().lean();
     const { taskID } = req.query;
-    const task = await TaskModel.findById(taskID);
+    let task = {};
+
+    for (let i = 0; i < stds.length; i++) {
+      stds[i].tasks = JSON.parse(stds[i].tasks);
+      stds[i]['statisc'] = 0;
+      stds[i]['hide'] = false;
+    };
+
+    if (taskID !== 'no') task = await TaskModel.findById(taskID);
 
     res.json({ stds, task });
   })
   .get('/filter/students', async (req, res) => {
     const { name } = req.query;
+    console.log(name);
     const stds = await StudentModel.find();
     const compr = new Helper.comparison(dldist);
 
     for (let i = 0; i < stds.length; i++) {
       stds[i]['dist'] = compr.get(name, `${stds[i].name} ${stds[i].last_name}`);
-      console.log(stds[i]);
     }
 
     stds.sort((a, b) => a.dist - b.dist);
-    /// console.log(stds);
+
     res.json(stds);
   })
   .get('/task/name', async (req, res) => {
@@ -66,7 +75,6 @@ app
 
     const task = new TaskModel({ taskText });
     const resFromDb = await task.save();
-
     const stds = await StudentModel.find();
 
     for (let i = 0; i < stds.length; i++) {
@@ -76,9 +84,9 @@ app
       stds[i].tasks = JSON.stringify(stt);
 
       await stds[i].save();
-    }
+    };
 
-    res.json(resFromDb)
+    res.json(resFromDb);
   })
   .post('/checkuser', async (req, res) => {
     const pass = req.body['pass'];
@@ -87,14 +95,36 @@ app
 
     res.status(200).json('ok');
   })
-  .post('/delete', async (req, res) => {
+  .post('/delete/task', async (req, res) => {
     const taskId = req.body['id'];
 
     const resFromDb = await TaskModel.findByIdAndDelete(taskId);
 
-    if (resFromDb) return res.status(200).json('ok');
+    if (!resFromDb) return res.status(500).json('no');
 
-    res.status(500).json('no');
+    const stds = await StudentModel.find();
+
+    for (let i = 0; i < stds.length; i++) {
+      let stt = JSON.parse(stds[i].tasks);
+      let delIndex = -1;
+
+      for (let j = 0; j < stt.length; j++) {
+        if (stt[j].id === taskId) {
+          delIndex = j;
+          break
+        }
+      }
+
+      if (delIndex !== -1) {
+        stt.splice(delIndex, 1);
+      }
+
+      stds[i].tasks = JSON.stringify(stt);
+
+      await stds[i].save();
+    }
+
+        res.status(200).json('ok');
   })
   .post('/change/status/task', async (req, res) => {
     const { uID, taskID, status } = req.body;
@@ -115,5 +145,29 @@ app
     std.tasks = JSON.stringify(stdt);
     const resFromDb = await std.save();
 
+    res.json(resFromDb);
+  })
+  .post('/save/student', async (req, res) => {
+    const { name, last_name } = req.body;
+    console.log(name, last_name);
+
+    const std = new StudentModel({ name, last_name, tasks: '[]' });
+    const nstd = await std.save();
+    let resObj = {
+      ...nstd
+    };
+
+    resObj['hide'] = false;
+    resObj.tasks = JSON.parse(nstd.tasks);
+    resObj.name = nstd.name;
+    resObj.last_name = nstd.last_name;
+    resObj._id = nstd._id;
+
+    res.json(resObj);
+  })
+  .post('/delete/student', async (req, res) => {
+    const { stdID } = req.body;
+
+    const resFromDb = await StudentModel.findByIdAndDelete(stdID);
     res.json(resFromDb);
   })

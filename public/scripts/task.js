@@ -90,8 +90,8 @@ createApp({
     deleteTask(id) {
 
         if (!this.isteacher) return;
-
-        request('/delete', 'POST', { id })
+        console.log('delete');
+        request('/delete/task', 'POST', { id })
             .then( res => {
                 if (res.st < 400) {
                     this.tasks = this.tasks.filter( task => task._id !== id);
